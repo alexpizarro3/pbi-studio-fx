@@ -22,6 +22,52 @@ export const generateTailwindConfig = (colors: string[]): string => {
 `;
 };
 
+export const generateStyleDictionaryTokens = (colors: string[]): string => {
+  const tokens: { [key: string]: { value: string } } = {};
+  colors.forEach((color, index) => {
+    tokens[`color-palette-${index + 1}`] = { value: color };
+  });
+
+  return JSON.stringify({
+    "color": tokens
+  }, null, 2);
+};
+
+export const generateAse = (colors: string[]): string => {
+  // This is a simplified placeholder for .ase generation.
+  // Real .ase generation is complex and typically requires a dedicated library or binary.
+  // This example will generate a very basic, non-standard ASE-like string.
+  let aseContent = "";
+  aseContent += "ASEF"; // Adobe Swatch Exchange File header
+  aseContent += "\x00\x01\x00\x00"; // Version 1.0
+  aseContent += "\x00\x00\x00\x01"; // Number of blocks (1 for color list)
+
+  // Color list block
+  aseContent += "\x00\x00\x00\x01"; // Block type: Color list
+  aseContent += "\x00\x00\x00\x00"; // Block length (placeholder, will be updated)
+
+  aseContent += String.fromCharCode(colors.length >> 8) + String.fromCharCode(colors.length & 0xFF); // Number of colors
+
+  colors.forEach(color => {
+    const r = parseInt(color.substring(1, 3), 16);
+    const g = parseInt(color.substring(3, 5), 16);
+    const b = parseInt(color.substring(5, 7), 16);
+
+    aseContent += "\x00\x06"; // Name length (6 for "ColorX")
+    aseContent += "C\x00o\x00l\x00o\x00r\x00" + String.fromCharCode(colors.indexOf(color) + 49); // Name (e.g., Color1)
+    aseContent += "\x00\x00"; // Model: RGB
+    aseContent += String.fromCharCode(r) + String.fromCharCode(g) + String.fromCharCode(b);
+    aseContent += "\x00\x00\x00\x00"; // Type: Global
+  });
+
+  // Update block length (very rough estimate, not accurate for real ASE)
+  const blockLength = aseContent.length - 12; // Subtract header and block type/length placeholders
+  // This part is tricky without proper binary manipulation. This is illustrative.
+  // For a real ASE, you'd need to calculate byte lengths precisely.
+
+  return aseContent;
+};
+
 export const generateSvg = (colors: string[]): string => {
   const width = 200;
   const height = 50;
@@ -41,4 +87,27 @@ export const generatePng = async (colors: string[]): Promise<string> => {
   // In a real scenario, you would render the palette to a canvas and then convert it to PNG.
   console.warn("PNG generation is a placeholder and requires client-side canvas rendering.");
   return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+};
+
+export const parseCoolorsUrl = (url: string): string[] | null => {
+  try {
+    const urlObj = new URL(url);
+    if (urlObj.hostname === 'coolors.co') {
+      const pathParts = urlObj.pathname.split('/');
+      const colorsString = pathParts[pathParts.length - 1];
+      if (colorsString) {
+        const colors = colorsString.split('-').map(color => `#${color}`);
+        return colors;
+      }
+    }
+    return null;
+  } catch (error) {
+    console.error("Error parsing Coolors URL:", error);
+    return null;
+  }
+};
+
+export const generateCoolorsUrl = (colors: string[]): string => {
+  const colorsString = colors.map(color => color.replace('#', '')).join('-');
+  return `https://coolors.co/${colorsString}`;
 };

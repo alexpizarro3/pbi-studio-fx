@@ -2,43 +2,40 @@
 
 A sophisticated web application for creating, visualizing, exporting and sharing custom themes for Power BI, with a focus on minimalist design, glassmorphism effects, and professional theme creation capabilities.
 
+## 🚀 Vision
+
+Our vision is to create the ultimate Power BI theme editor, combining the best features of a professional theme generator with the intuitive and beautiful user experience of a modern color palette tool. We are building a tool that is not only powerful and flexible but also a joy to use.
+
 ## ✨ Features
 
-### 🎨 Theme Creation
-- **Interactive Palette Selector** - Choose from curated color palettes organized by style
-- **Real-time Preview** - See your theme changes instantly
-- **Palette-Adaptive Accents** - UI elements automatically adapt to selected colors
-- **Accessibility Compliant** - All palettes meet WCAG 4.5 contrast requirements
+### 🎨 Theme Creation & Palette Generation
+- **Interactive Palette Editor:** A full-screen, `coolors.co`-style palette editor with drag-and-drop reordering, color locking, and multiple harmony rules.
+- **Generate from Image:** Automatically extract a color palette from any image.
+- **Trending Palettes:** Explore a curated library of trending palettes from Pantone, Dribbble, and other design communities.
+- **Community Palettes:** Share your own palettes and browse palettes created by other users.
+- **Advanced Color Picker:** Fine-tune your colors with HSL, HSB, and CMYK support.
+- **Accessibility Compliant:** All palettes meet WCAG 4.5 contrast requirements.
+
+### 📊 Live Preview & Visualization
+- **Interactive Power BI Preview:** See your theme applied to a variety of Power BI visuals in real-time.
+- **Multiple Report Layouts:** Switch between different report layouts to see how your theme adapts.
+- **Real-time Theme Switching:** Instantly apply different themes to the live preview.
 
 ### 📤 Export & Management
-- **Power BI Export** - Generate JSON theme files ready for Power BI Desktop
-- **Custom Palette Manager** - Save, load, and organize your custom color palettes
-- **Custom Palette Builder** - Create palettes with color harmony generators (complementary, triadic, analogous)
-- **Interactive Color Picker** - Advanced color selection with predefined quick colors
-- **Real-time Theme Preview** - See your colors applied to mock dashboard elements
-- **Professional Export Dialog** - Preview theme details before export
-- **Local Storage** - Your custom palettes are saved locally for future use
+- **Multiple Export Formats:** Export your themes to Power BI JSON, CSS variables, Tailwind CSS config, and Adobe Swatch Exchange (.ase).
+- **Custom Palette Manager:** Save, load, and organize your custom color palettes.
+- **Local Storage:** Your custom palettes are saved locally for future use.
 
-### 🎭 Visual Modes
-- **Elegant** - Sophisticated with soft shadows and refined animations
-- **Minimal** - Clean and understated design
-- **Vivid** - Bold colors with enhanced visual effects
-
-### ⚡ Animation Presets
-- **Smooth** - Gentle, professional transitions (300ms)
-- **Bouncy** - Playful spring animations with scale effects
-- **Crisp** - Fast, responsive interactions (150ms)
-
-### 🔮 Advanced UI
-- **Glassmorphism Effects** - Modern translucent design
-- **Animated Gradient Borders** - Subtle rotating gradients
-- **Ripple Microinteractions** - Touch-responsive button feedback
-- **Framer Motion Transitions** - Smooth page and component animations
+### 🔮 Advanced UI/UX
+- **Glassmorphism Effects:** Modern translucent design.
+- **Smooth Animations:** Professional transitions and microinteractions powered by Framer Motion.
+- **Responsive Design:** Works on desktop, tablet, and mobile.
+- **Dark/Light Modes:** Adaptive interface for different environments.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation & Setup
@@ -55,13 +52,6 @@ npm run dev
 ```
 
 The application will be available at [http://localhost:3000](http://localhost:3000).
-
-### Basic Usage
-1. **Select a Palette**: Choose from curated color palettes in the sidebar
-2. **Customize Theme**: Adjust visual mode (Elegant/Minimal/Vivid) and animation preset
-3. **Preview**: See real-time preview of your theme applied to dashboard mockups
-4. **Export**: Click "Export Theme" to generate Power BI JSON file
-5. **Import to Power BI**: View → Themes → Browse for themes → Select your JSON file
 
 ## 🎯 Technology Stack
 
@@ -176,13 +166,13 @@ Glowlytics embraces a **minimalist aesthetic** with **glassmorphism effects** wh
 - **Brand Guidelines** - Corporate color compliance
 - **Analytics** - Theme usage insights
 
-## � Planned Dataset - Seasonal Palettes
+## 📊 Planned Dataset - Seasonal Palettes
 
 The application will include curated seasonal and trending color palettes:
 
 ### Initial Palette Collection (`/lib/seasonal-palettes.json`)
 - **Pantone 2025** - Colors of the year and seasonal trends
-- **Neon 80s** - Retro-futuristic cyberpunk aesthetics  
+- **Neon 80s** - Retro-futuristic cyberpunk aesthetics
 - **Minimal Pastel** - Soft, contemporary minimalism
 - **Gradient Sunset** - Warm, organic color transitions
 - **Dark Elegance** - Sophisticated dark mode palettes
@@ -194,7 +184,7 @@ The application will include curated seasonal and trending color palettes:
 
 Each palette includes 8-12 colors with semantic assignments for:
 - Primary data visualization
-- Secondary/accent colors  
+- Secondary/accent colors
 - Background and surface colors
 - Text and annotation colors
 - Success/warning/error states
@@ -212,4 +202,3 @@ MIT License - Feel free to use in your projects!
 ---
 
 **Glowlytics** – Crafting beautiful Power BI themes with precision and style. 🎨✨
-

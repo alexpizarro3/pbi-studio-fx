@@ -1,30 +1,28 @@
-// Color utility functions using modern color science
+import { oklch, parse, formatHex, converter, getLuminance as culoriGetLuminance, filter as culoriFilter } from 'culori';
+
+// Initialize culori converter for OKLCH
+const toOklch = converter('oklch');
+const fromOklch = converter('hex');
 
 /**
- * Convert hex color to OKLCH color space (placeholder for future implementation)
- * This is where we'll integrate culori or colorjs.io for proper color space handling
+ * Convert hex color to OKLCH color space
  */
 export function hexToOKLCH(hex: string): { l: number; c: number; h: number } {
-  // Placeholder implementation - will be replaced with proper OKLCH conversion
-  // For now, return a basic approximation
-  const rgb = hexToRgb(hex);
-  const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-  
+  const color = toOklch(parse(hex));
   return {
-    l: hsl.l / 100, // Lightness 0-1
-    c: hsl.s / 100, // Chroma 0-1  
-    h: hsl.h // Hue 0-360
+    l: color.l || 0, // Lightness (0-1)
+    c: color.c || 0, // Chroma (0-0.4 for sRGB gamut)
+    h: color.h || 0  // Hue (0-360)
   };
 }
 
 /**
- * Convert OKLCH back to hex (placeholder)
+ * Convert OKLCH back to hex
  */
 export function oklchToHex(l: number, c: number, h: number): string {
-  // Placeholder - convert back through HSL for now
-  const hsl = { h, s: c * 100, l: l * 100 };
-  const rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
-  return rgbToHex(rgb.r, rgb.g, rgb.b);
+  // Ensure values are within valid ranges for culori
+  const oklchColor = oklch(l, c, h);
+  return formatHex(fromOklch(oklchColor));
 }
 
 /**
@@ -87,13 +85,15 @@ export function generateTintsAndShades(baseColor: string, steps = 5): {
   const shades: string[] = [];
   
   for (let i = 1; i <= steps; i++) {
-    // Tints (lighter)
+    // Tints (lighter) - increase lightness, slightly decrease chroma to avoid desaturation at high lightness
     const tintL = Math.min(1, oklch.l + (i * 0.15));
-    tints.push(oklchToHex(tintL, oklch.c * 0.8, oklch.h));
+    const tintC = Math.max(0, oklch.c * (1 - i * 0.05)); // Reduce chroma slightly for lighter colors
+    tints.push(oklchToHex(tintL, tintC, oklch.h));
     
-    // Shades (darker)
+    // Shades (darker) - decrease lightness, slightly increase chroma for richer darks
     const shadeL = Math.max(0, oklch.l - (i * 0.15));
-    shades.push(oklchToHex(shadeL, oklch.c * 0.9, oklch.h));
+    const shadeC = oklch.c * (1 + i * 0.05); // Increase chroma slightly for darker colors
+    shades.push(oklchToHex(shadeL, shadeC, oklch.h));
   }
   
   return { tints, shades };
@@ -103,13 +103,10 @@ export function generateTintsAndShades(baseColor: string, steps = 5): {
  * Check if color meets WCAG contrast requirements
  */
 export function getContrastRatio(color1: string, color2: string): number {
-  const lum1 = getLuminance(color1);
-  const lum2 = getLuminance(color2);
+  const lum1 = culoriGetLuminance(parse(color1));
+  const lum2 = culoriGetLuminance(parse(color2));
   
-  const brightest = Math.max(lum1, lum2);
-  const darkest = Math.min(lum1, lum2);
-  
-  return (brightest + 0.05) / (darkest + 0.05);
+  return (Math.max(lum1, lum2) + 0.05) / (Math.min(lum1, lum2) + 0.05);
 }
 
 /**
@@ -122,84 +119,44 @@ export function getReadableColor(backgroundColor: string): string {
   return whiteContrast > blackContrast ? '#ffffff' : '#000000';
 }
 
-// Helper functions (basic implementations)
-function hexToRgb(hex: string): { r: number; g: number; b: number } {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : { r: 0, g: 0, b: 0 };
+/**
+ * Simulate color blindness for a given color
+ * @param color The hex color to simulate
+ * @param type The type of color blindness to simulate ('protanomaly', 'deuteranomaly', 'tritanomaly', etc.)
+ * @returns The hex color after simulation
+ */
+export function simulateColorBlindness(color: string, type: string): string {
+  const parsedColor = parse(color);
+  if (!parsedColor) return color; // Return original if parsing fails
+
+  const simulatedColor = culoriFilter(type)(parsedColor);
+  return formatHex(simulatedColor);
 }
 
-function rgbToHex(r: number, g: number, b: number): string {
-  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-}
+/**
+ * Analyze the color temperature of a palette
+ * @param palette The array of hex colors in the palette
+ * @returns 'warm', 'cool', or 'neutral'
+ */
+export function analyzeColorTemperature(palette: string[]): 'warm' | 'cool' | 'neutral' {
+  let warmCount = 0;
+  let coolCount = 0;
 
-function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
-  r /= 255;
-  g /= 255;
-  b /= 255;
-  
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  let h = 0, s = 0, l = (max + min) / 2;
-  
-  if (max !== min) {
-    const d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-    
-    switch (max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
+  palette.forEach(hex => {
+    const oklchColor = hexToOKLCH(hex);
+    // Simple heuristic: hues around 0-60 (red-yellow) are warm, 180-240 (cyan-blue) are cool
+    if (oklchColor.h >= 0 && oklchColor.h < 90) {
+      warmCount++;
+    } else if (oklchColor.h >= 210 && oklchColor.h < 330) {
+      coolCount++;
     }
-    h /= 6;
-  }
-  
-  return { h: h * 360, s: s * 100, l: l * 100 };
-}
-
-function hslToRgb(h: number, s: number, l: number): { r: number; g: number; b: number } {
-  h /= 360;
-  s /= 100;
-  l /= 100;
-  
-  const hue2rgb = (p: number, q: number, t: number): number => {
-    if (t < 0) t += 1;
-    if (t > 1) t -= 1;
-    if (t < 1/6) return p + (q - p) * 6 * t;
-    if (t < 1/2) return q;
-    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-    return p;
-  };
-  
-  let r, g, b;
-  
-  if (s === 0) {
-    r = g = b = l;
-  } else {
-    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    const p = 2 * l - q;
-    r = hue2rgb(p, q, h + 1/3);
-    g = hue2rgb(p, q, h);
-    b = hue2rgb(p, q, h - 1/3);
-  }
-  
-  return {
-    r: Math.round(r * 255),
-    g: Math.round(g * 255),
-    b: Math.round(b * 255)
-  };
-}
-
-function getLuminance(hex: string): number {
-  const rgb = hexToRgb(hex);
-  
-  const [r, g, b] = [rgb.r, rgb.g, rgb.b].map(c => {
-    c = c / 255;
-    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
   });
-  
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+  if (warmCount > coolCount * 1.5) {
+    return 'warm';
+  } else if (coolCount > warmCount * 1.5) {
+    return 'cool';
+  } else {
+    return 'neutral';
+  }
 }

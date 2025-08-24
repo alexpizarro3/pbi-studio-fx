@@ -1,0 +1,7 @@
+\x1b[B
+Slate
+tailwind.config.js
+~/components
+~/lib/utils
+Yes
+Yes
