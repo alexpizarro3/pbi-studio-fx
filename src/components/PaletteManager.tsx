@@ -38,8 +38,9 @@ export function PaletteManager({ isOpen, onClose, currentPalette, onLoadPalette 
   }, [isOpenLocal]);
 
   const focusTrapOptions = {
-    escapeDeactivates: true,
-    onDeactivate: onCloseLocal,
+    escapeDeactivates: false,
+    allowOutsideClick: true,
+    onDeactivate: () => {}, // Do nothing on Escape
     initialFocus: () => firstRef.current || undefined,
   };
 
@@ -99,18 +100,18 @@ export function PaletteManager({ isOpen, onClose, currentPalette, onLoadPalette 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
-            onClick={onClose}
-          />
-          
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={e => {
+              if (e.target === e.currentTarget) {
+                onClose();
+              }
+            }}
           >
-            <div ref={modalRef} className="bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-4xl max-h-[90vh] overflow-hidden">
+            <div
+              ref={modalRef}
+              className="bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-4xl max-h-[90vh] overflow-hidden"
+              onClick={e => e.stopPropagation()}
+            >
               <FocusTrap active={isOpenLocal} focusTrapOptions={focusTrapOptions}>
               <div role="dialog" aria-modal="true" aria-labelledby="palette-manager-title">
               {/* Header */}

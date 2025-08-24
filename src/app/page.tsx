@@ -142,7 +142,7 @@ export default function Home() {
     setShowExportModal(true);
   };
 
-  // Keyboard event listener for spacebar
+  // Keyboard event listener for spacebar ONLY (no Escape)
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.code === 'Space' && !(event.target instanceof HTMLInputElement) && !(event.target instanceof HTMLTextAreaElement)) {
@@ -329,40 +329,40 @@ export default function Home() {
       {/* Modals */}
       <ExportModal 
         isOpen={showExportModal}
-        onClose={() => setShowExportModal(false)}
+        onClose={() => { console.log('ExportModal close triggered'); setShowExportModal(false); }}
         theme={themeForExport}
       />
       <PaletteManager 
         isOpen={showPaletteManager}
-        onClose={() => setShowPaletteManager(false)}
+        onClose={() => { console.log('PaletteManager close triggered'); setShowPaletteManager(false); }}
         currentPalette={getCurrentPaletteColors()}
         onLoadPalette={handleLoadPalette}
       />
       <CustomPaletteBuilder
         isOpen={showCustomBuilder}
-        onClose={() => setShowCustomBuilder(false)}
+        onClose={() => { console.log('CustomPaletteBuilder close triggered'); setShowCustomBuilder(false); }}
         onSave={handleSaveCustomPalette}
       />
       <ImagePaletteExtractorModal
         isOpen={showImageExtractor}
-        onClose={() => setShowImageExtractor(false)}
+        onClose={() => { console.log('ImagePaletteExtractorModal close triggered'); setShowImageExtractor(false); }}
         onLoadPalette={handleLoadPalette}
       />
       <PaletteGeneratorModal
         isOpen={showPaletteGenerator}
-        onClose={() => setShowPaletteGenerator(false)}
+        onClose={() => { console.log('PaletteGeneratorModal close triggered'); setShowPaletteGenerator(false); }}
         onLoadPalette={handleLoadPalette}
         currentPaletteColors={getCurrentPaletteColors()}
         lockedColors={lockedColors}
       />
       <ColorVariationsModal 
         isOpen={showColorVariationsModal}
-        onClose={() => setShowColorVariationsModal(false)}
+        onClose={() => { console.log('ColorVariationsModal close triggered'); setShowColorVariationsModal(false); }}
         color={selectedColorForVariations}
       />
       <PaletteVisualizer 
         isOpen={showPaletteVisualizer}
-        onClose={() => setShowPaletteVisualizer(false)}
+        onClose={() => { console.log('PaletteVisualizer close triggered'); setShowPaletteVisualizer(false); }}
         palette={getCurrentPaletteColors()}
       />
     </div>
