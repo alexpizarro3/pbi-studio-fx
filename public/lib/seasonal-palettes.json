@@ -1,0 +1,54 @@
+{
+  "seasonal_palettes": [
+    {
+      "name": "Pantone 2025",
+      "colors": ["#5f4b8b", "#b2a8d1", "#f7f5fa", "#a8d1b2", "#4b8b5f"],
+      "description": "Colors of the year and seasonal trends"
+    },
+    {
+      "name": "Neon 80s",
+      "colors": ["#39ff14", "#ff00c8", "#00e5ff", "#faff00", "#ff3f00"],
+      "description": "Retro-futuristic cyberpunk aesthetics"
+    },
+    {
+      "name": "Minimal Pastel",
+      "colors": ["#a3cef1", "#f4d3d3", "#fcf9f9", "#d3f4e2", "#c1d3f4"],
+      "description": "Soft, contemporary minimalism"
+    },
+    {
+      "name": "Gradient Sunset",
+      "colors": ["#ff9a8b", "#ff6a88", "#ff99ac", "#f5b4a8", "#f9d7c7"],
+      "description": "Warm, organic color transitions"
+    },
+    {
+      "name": "Dark Elegance",
+      "colors": ["#22223b", "#4a4e69", "#9a8c98", "#c9ada7", "#f2e9e4"],
+      "description": "Sophisticated dark mode palettes"
+    },
+    {
+      "name": "Nature Green",
+      "colors": ["#4caf50", "#81c784", "#a5d6a7", "#c8e6c9", "#e8f5e9"],
+      "description": "Earth-inspired environmental themes"
+    },
+    {
+      "name": "Cyberpunk",
+      "colors": ["#ff00c8", "#00e5ff", "#39ff14", "#faff00", "#ff3f00"],
+      "description": "High-contrast tech aesthetics"
+    },
+    {
+      "name": "Desert Sand",
+      "colors": ["#edc9af", "#e6b8a2", "#deab90", "#d69f7e", "#cc936c"],
+      "description": "Warm, neutral earth tones"
+    },
+    {
+      "name": "Ocean Wave",
+      "colors": ["#00bfff", "#1e90ff", "#4169e1", "#0000cd", "#00008b"],
+      "description": "Cool blues and aquatic themes"
+    },
+    {
+      "name": "Future Tech",
+      "colors": ["#00e5ff", "#1de9b6", "#7a3eff", "#e040fb", "#ff00c8"],
+      "description": "Modern, clean corporate colors"
+    }
+  ]
+}

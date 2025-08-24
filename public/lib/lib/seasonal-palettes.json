@@ -1,0 +1,174 @@
+{
+  "seasonalPalettes": [
+    {
+      "id": "pantone-2025",
+      "name": "Pantone 2025",
+      "description": "Official Pantone Colors of the Year with supporting hues",
+      "category": "trending",
+      "colors": ["#5f4b8b", "#a855f7", "#d946ef", "#ec4899", "#f97316", "#eab308", "#22c55e", "#06b6d4"],
+      "semantic": {
+        "primary": "#5f4b8b",
+        "secondary": "#a855f7",
+        "accent": "#ec4899",
+        "success": "#22c55e",
+        "warning": "#eab308",
+        "error": "#ef4444",
+        "info": "#06b6d4",
+        "neutral": "#64748b"
+      }
+    },
+    {
+      "id": "neon-80s",
+      "name": "Neon 80s",
+      "description": "Retro-futuristic cyberpunk aesthetics with electric colors",
+      "category": "retro",
+      "colors": ["#39ff14", "#ff0080", "#00ffff", "#ff6600", "#ffff00", "#ff1493", "#00ff00", "#8a2be2"],
+      "semantic": {
+        "primary": "#39ff14",
+        "secondary": "#ff0080",
+        "accent": "#00ffff",
+        "success": "#00ff00",
+        "warning": "#ffff00",
+        "error": "#ff6600",
+        "info": "#00ffff",
+        "neutral": "#8a2be2"
+      }
+    },
+    {
+      "id": "minimal-pastel",
+      "name": "Minimal Pastel",
+      "description": "Soft, contemporary minimalism with gentle color transitions",
+      "category": "minimal",
+      "colors": ["#a3cef1", "#ffb3ba", "#b5ead7", "#ffffba", "#ffdfba", "#c7ceea", "#ffd1dc", "#b2dfdb"],
+      "semantic": {
+        "primary": "#a3cef1",
+        "secondary": "#c7ceea",
+        "accent": "#ffb3ba",
+        "success": "#b5ead7",
+        "warning": "#ffffba",
+        "error": "#ffb3ba",
+        "info": "#a3cef1",
+        "neutral": "#e2e8f0"
+      }
+    },
+    {
+      "id": "gradient-sunset",
+      "name": "Gradient Sunset",
+      "description": "Warm, organic color transitions inspired by golden hour",
+      "category": "nature",
+      "colors": ["#ff9a8b", "#fecfef", "#fecfef", "#a8edea", "#fed6e3", "#ff8a80", "#ffb74d", "#fff176"],
+      "semantic": {
+        "primary": "#ff9a8b",
+        "secondary": "#ffb74d",
+        "accent": "#fed6e3",
+        "success": "#a8edea",
+        "warning": "#fff176",
+        "error": "#ff8a80",
+        "info": "#fecfef",
+        "neutral": "#fafafa"
+      }
+    },
+    {
+      "id": "dark-elegance",
+      "name": "Dark Elegance",
+      "description": "Sophisticated dark mode palettes with luxury accents",
+      "category": "elegant",
+      "colors": ["#22223b", "#4a4e69", "#9a8c98", "#c9ada7", "#f2e9e4", "#ffffff", "#ffd700", "#ff6b6b"],
+      "semantic": {
+        "primary": "#22223b",
+        "secondary": "#4a4e69",
+        "accent": "#ffd700",
+        "success": "#4ade80",
+        "warning": "#fbbf24",
+        "error": "#ff6b6b",
+        "info": "#60a5fa",
+        "neutral": "#9a8c98"
+      }
+    },
+    {
+      "id": "nature-green",
+      "name": "Nature Green",
+      "description": "Earth-inspired environmental themes with organic warmth",
+      "category": "nature",
+      "colors": ["#4caf50", "#66bb6a", "#81c784", "#a5d6a7", "#c8e6c9", "#2e7d32", "#388e3c", "#43a047"],
+      "semantic": {
+        "primary": "#4caf50",
+        "secondary": "#66bb6a",
+        "accent": "#81c784",
+        "success": "#4caf50",
+        "warning": "#ff9800",
+        "error": "#f44336",
+        "info": "#2196f3",
+        "neutral": "#757575"
+      }
+    },
+    {
+      "id": "cyberpunk",
+      "name": "Cyberpunk",
+      "description": "High-contrast tech aesthetics with electric highlights",
+      "category": "tech",
+      "colors": ["#ff00c8", "#00ffaa", "#0088ff", "#ffff00", "#ff4444", "#8800ff", "#00ff88", "#ffffff"],
+      "semantic": {
+        "primary": "#ff00c8",
+        "secondary": "#00ffaa",
+        "accent": "#0088ff",
+        "success": "#00ff88",
+        "warning": "#ffff00",
+        "error": "#ff4444",
+        "info": "#0088ff",
+        "neutral": "#333333"
+      }
+    },
+    {
+      "id": "desert-sand",
+      "name": "Desert Sand",
+      "description": "Warm, neutral earth tones with desert inspiration",
+      "category": "neutral",
+      "colors": ["#edc9af", "#d4a574", "#c49980", "#b08d57", "#9c6644", "#8b4513", "#daa520", "#f4a460"],
+      "semantic": {
+        "primary": "#edc9af",
+        "secondary": "#d4a574",
+        "accent": "#daa520",
+        "success": "#9c6644",
+        "warning": "#f4a460",
+        "error": "#cd853f",
+        "info": "#b08d57",
+        "neutral": "#8b7355"
+      }
+    },
+    {
+      "id": "ocean-wave",
+      "name": "Ocean Wave",
+      "description": "Cool blues and aquatic themes with depth variations",
+      "category": "cool",
+      "colors": ["#00bfff", "#1e90ff", "#4169e1", "#0000cd", "#000080", "#87ceeb", "#87cefa", "#b0e0e6"],
+      "semantic": {
+        "primary": "#00bfff",
+        "secondary": "#1e90ff",
+        "accent": "#87ceeb",
+        "success": "#4169e1",
+        "warning": "#ffd700",
+        "error": "#ff6347",
+        "info": "#00bfff",
+        "neutral": "#708090"
+      }
+    },
+    {
+      "id": "future-tech",
+      "name": "Future Tech",
+      "description": "Modern, clean corporate colors with tech sophistication",
+      "category": "corporate",
+      "colors": ["#00e5ff", "#00b0ff", "#0081cb", "#005cb2", "#003d82", "#1976d2", "#1565c0", "#0d47a1"],
+      "semantic": {
+        "primary": "#00e5ff",
+        "secondary": "#1976d2",
+        "accent": "#00b0ff",
+        "success": "#4caf50",
+        "warning": "#ff9800",
+        "error": "#f44336",
+        "info": "#00e5ff",
+        "neutral": "#607d8b"
+      }
+    }
+  ]
+}
