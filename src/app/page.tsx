@@ -68,6 +68,31 @@ function isAccessible(hex: string) {
 }
 
 export default function Home() {
+  // Ref for pasarela scrolling
+  const pasarelaRef = useRef<HTMLDivElement>(null);
+
+  const scrollPasarela = (dir: 'left' | 'right') => {
+    if (!pasarelaRef.current) return;
+    const scrollAmount = 300;
+    pasarelaRef.current.scrollBy({ left: dir === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+  };
+  // Trending palettes data and state
+  const trendingPalettes = [
+    { name: 'Pastel Dreamland Adventure', colors: ['#D4B9E7', '#FFC1D6', '#FFB6CB', '#BDE3FF', '#A3D8F4'] },
+    { name: 'Olive Garden Feast', colors: ['#7A8B3A', '#2C3E1F', '#FFFBEA', '#E2A86F', '#C97A3A'] },
+    { name: 'Fiery Ocean', colors: ['#7A0000', '#D32F2F', '#FFFBEA', '#003049', '#5A99C6'] },
+    { name: 'Soft Sand', colors: ['#E8B4B8', '#F7E4D7', '#EAE6DA', '#B7C4A1', '#5C6B73'] },
+    { name: 'Vibrant Color Fiesta', colors: ['#FFC300', '#FF5733', '#FF007F', '#7C3AED', '#3498DB'] },
+    { name: 'Fiery Palette', colors: ['#6C1A36', '#A71D31', '#FF7F11', '#FFB800', '#176087'] },
+    { name: 'Refreshing Summer Fun', colors: ['#A3D8F4', '#21B6A8', '#003049', '#FFC300', '#FF5733'] },
+    { name: 'Earthy Forest Hues', colors: ['#EAE6DA', '#B7C4A1', '#7A8B3A', '#2C3E1F', '#5C6B73'] },
+  ];
+
+  const [selectedPaletteIdx, setSelectedPaletteIdx] = useState(0);
+  const [currentPalette, setCurrentPalette] = useState(trendingPalettes[0].colors);
+  function getCurrentPaletteColors() {
+    return currentPalette;
+  }
   const {
     mode,
     setMode,
@@ -84,7 +109,7 @@ export default function Home() {
     showPaletteGenerator,
     setShowPaletteGenerator,
     setCurrentPaletteColors,
-    getCurrentPaletteColors,
+    // getCurrentPaletteColors, // REMOVE duplicate
   } = useThemeStore();
 
   const [showRightPanel, setShowRightPanel] = useState(true);
@@ -249,37 +274,117 @@ export default function Home() {
         </aside>
 
         {/* Center Panel (Live Preview) */}
-        <main ref={mainRef} className="flex-1 flex items-stretch justify-center overflow-hidden relative">
-          {getCurrentPaletteColors().map((color, index) => (
-            <PaletteDisplayItem
-              key={index}
-              color={color}
-              isLocked={lockedColors[index]}
-              onColorClick={(e) => handleColorClick(color, index, e)}
-              onToggleLock={() => handleToggleLock(index)}
-              onViewVariations={() => handleViewVariations(color)}
-            />
-          ))}
+        <main ref={mainRef} className="flex-1 flex flex-col items-center justify-start overflow-y-auto relative py-16 bg-white">
 
+          {/* Trending palettes pasarela at top with carousel arrows */}
+          <div className="w-full flex flex-col items-center pt-8 pb-2 bg-white sticky top-0 z-20 shadow-sm">
+            <h1 className="text-4xl font-extrabold mb-2 text-center">Super Fast Palette Generator</h1>
+            <p className="text-lg text-gray-500 mb-6 text-center">Create, edit, and preview your color palette instantly. Click a trending palette to apply it to the dashboard below.</p>
+            <div className="w-full flex justify-center items-center mb-6 relative" style={{ maxWidth: '1200px' }}>
+              <button
+                className="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow px-2 py-2 text-2xl text-gray-500 hover:bg-gray-100 z-10"
+                style={{ marginLeft: '-24px' }}
+                onClick={() => scrollPasarela('left')}
+                aria-label="Scroll left"
+              >&#8592;</button>
+              <div
+                ref={pasarelaRef}
+                className="flex gap-8 overflow-x-auto px-4 py-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
+                style={{ scrollBehavior: 'smooth', maxWidth: '1100px' }}
+              >
+                {trendingPalettes.map((palette, idx) => (
+                  <button
+                    key={palette.name}
+                    className={`flex flex-col items-center rounded-2xl shadow-lg px-4 py-3 border-2 transition-all duration-150 ${selectedPaletteIdx === idx ? 'border-blue-500 scale-105' : 'border-transparent hover:scale-105 hover:border-blue-300'}`}
+                    onClick={() => {
+                      setCurrentPalette(palette.colors);
+                      setSelectedPaletteIdx(idx);
+                    }}
+                  >
+                    <div className="flex gap-2 mb-2">
+                      {palette.colors.map((color) => (
+                        <div key={color} className="w-10 h-10 rounded-lg" style={{ background: color, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }} />
+                      ))}
+                    </div>
+                    <span className="text-xs font-semibold text-gray-700 mb-1">{palette.name}</span>
+                    <div className="flex gap-1">
+                      {palette.colors.map((color) => (
+                        <span key={color} className="text-[10px] font-mono text-gray-400">{color}</span>
+                      ))}
+                    </div>
+                  </button>
+                ))}
+              </div>
+              <button
+                className="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow px-2 py-2 text-2xl text-gray-500 hover:bg-gray-100 z-10"
+                style={{ marginRight: '-24px' }}
+                onClick={() => scrollPasarela('right')}
+                aria-label="Scroll right"
+              >&#8594;</button>
+            </div>
+          </div>
+
+          {/* Always-visible dashboard visualizer below pasarela */}
+          <div className="w-full flex justify-center mb-16">
+            <div className="w-full max-w-5xl">
+              <PaletteVisualizer palette={getCurrentPaletteColors()} />
+            </div>
+          </div>
+
+          {/* Palette row with arrows, centered, large swatches below dashboard */}
+          <div className="flex items-center justify-center gap-6 mb-12 sticky top-[120px] z-10 bg-white bg-opacity-95 shadow">
+            <button
+              className="text-4xl px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 shadow transition disabled:opacity-30"
+              disabled={true}
+              aria-label="Previous palette"
+            >&#8592;</button>
+            <div className="flex flex-row gap-6">
+              {getCurrentPaletteColors().map((color, index) => (
+                <div key={index} className="flex flex-col items-center">
+                  <div className="w-28 h-28 rounded-2xl shadow-lg border border-gray-200 cursor-pointer transition-transform hover:scale-105" style={{ backgroundColor: color }} onClick={(e) => handleColorClick(color, index, e)} />
+                  <span className="mt-3 text-base font-semibold text-gray-700">{color.toUpperCase()}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              className="text-4xl px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 shadow transition disabled:opacity-30"
+              disabled={true}
+              aria-label="Next palette"
+            >&#8594;</button>
+          </div>
+
+          {/* Color Picker */}
           {showColorPicker && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               className="absolute z-50"
-              style={{
-                top: colorPickerPosition.y,
-                left: colorPickerPosition.x,
-                transform: 'translate(-50%, -50%)',
-              }}
             >
-              <ColorPicker
-                color={colorPickerColor}
-                onChange={handleColorPickerChange}
-                index={colorPickerIndex}
-              />
+              <div
+                style={{
+                  top: colorPickerPosition.y,
+                  left: colorPickerPosition.x,
+                  transform: 'translate(-50%, -50%)',
+                  position: 'absolute',
+                }}
+              >
+                <ColorPicker
+                  color={colorPickerColor}
+                  onChange={handleColorPickerChange}
+                  index={colorPickerIndex}
+                />
+              </div>
             </motion.div>
           )}
+
+
+
+  // ...existing logic...
+
+  // ...existing logic...
+
+  // ...existing logic...
         </main>
 
         {/* Right Panel (Advanced Properties) */}
@@ -359,11 +464,6 @@ export default function Home() {
         isOpen={showColorVariationsModal}
         onClose={() => { console.log('ColorVariationsModal close triggered'); setShowColorVariationsModal(false); }}
         color={selectedColorForVariations}
-      />
-      <PaletteVisualizer 
-        isOpen={showPaletteVisualizer}
-        onClose={() => { console.log('PaletteVisualizer close triggered'); setShowPaletteVisualizer(false); }}
-        palette={getCurrentPaletteColors()}
       />
     </div>
   );
